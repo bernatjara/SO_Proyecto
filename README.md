@@ -1,6 +1,5 @@
 # SO_Proyecto
 ##
-
 Versión 3 generada por Nil Velàsquez
 =======
 Versión 2 generada por Bernat Jara 
