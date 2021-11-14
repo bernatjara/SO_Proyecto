@@ -1,2 +1,3 @@
 # SO_Proyecto
-Versión 2 generada por NombreDelManager
+##
+Versión 3 generada por Nil Velàsquez

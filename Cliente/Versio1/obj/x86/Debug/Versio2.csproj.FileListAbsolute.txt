@@ -5,3 +5,12 @@ C:\Users\Usuario\OneDrive\Escritorio\V2.3-20211107T153042Z-001\V2.3\Versio1\obj\
 C:\Users\Usuario\OneDrive\Escritorio\V2.3-20211107T153042Z-001\V2.3\Versio1\obj\x86\Debug\Versio2.csproj.GenerateResource.Cache
 C:\Users\Usuario\OneDrive\Escritorio\V2.3-20211107T153042Z-001\V2.3\Versio1\obj\x86\Debug\Versio1.exe
 C:\Users\Usuario\OneDrive\Escritorio\V2.3-20211107T153042Z-001\V2.3\Versio1\obj\x86\Debug\Versio1.pdb
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\bin\Debug\Versio1.exe
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\bin\Debug\Versio1.pdb
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio1.Form1.resources
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio1.Properties.Resources.resources
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio2.csproj.GenerateResource.Cache
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio1.exe
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio1.pdb
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio2.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\SO_Proyecto\Versio1\obj\x86\Debug\Versio2.Properties.Resources.resources
