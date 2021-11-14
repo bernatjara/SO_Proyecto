@@ -1,4 +1,4 @@
-# SO_Proyecto
+# Proyecto SO - Grupo M9
 ## Versión 2
 ###
 Versión 2 generada por Bernat Jara 
