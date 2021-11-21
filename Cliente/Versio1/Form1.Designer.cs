@@ -44,9 +44,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.desco = new System.Windows.Forms.Button();
             this.conectados = new System.Windows.Forms.DataGridView();
+
             this.invitar = new System.Windows.Forms.Button();
             this.nominvita = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+
             ((System.ComponentModel.ISupportInitialize)(this.conectados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -198,6 +200,7 @@
             this.conectados.Size = new System.Drawing.Size(217, 319);
             this.conectados.TabIndex = 17;
             // 
+
             // invitar
             // 
             this.invitar.Location = new System.Drawing.Point(873, 181);
@@ -224,14 +227,19 @@
             this.label5.TabIndex = 20;
             this.label5.Text = "Escriba el nombre de la persona que quiere invitar:";
             // 
+
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+
             this.ClientSize = new System.Drawing.Size(1054, 444);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.nominvita);
             this.Controls.Add(this.invitar);
+
+            this.ClientSize = new System.Drawing.Size(819, 444);
+
             this.Controls.Add(this.conectados);
             this.Controls.Add(this.desco);
             this.Controls.Add(this.label4);
@@ -274,9 +282,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button desco;
         private System.Windows.Forms.DataGridView conectados;
+
         private System.Windows.Forms.Button invitar;
         private System.Windows.Forms.TextBox nominvita;
         private System.Windows.Forms.Label label5;
+
+
     }
 }
 

@@ -25,10 +25,12 @@ namespace Versio1
         int iniciar = 0;
         int sal = 0;
         int numConectados;
+
         string nomusu;
         string nominvi;
         string[] vector;
         int idPart=-1;
+
         private void AtenderServidor()
         {
             while (true)
@@ -46,6 +48,7 @@ namespace Versio1
                     {
                         case 5: //Inicio de sesión.
                             {
+
                                     //Recibimos la respuesta del servidor 
                                     if (mensaje == "Si")
                                     {
@@ -64,6 +67,26 @@ namespace Versio1
                                         MessageBox.Show(mensaje);
                                         atender.Abort();
                                     }
+
+
+                                //Recibimos la respuesta del servidor 
+                                if (mensaje == "Si")
+                                {
+                                    this.BackColor = Color.Green;
+                                    MessageBox.Show("Bienvindo usuario.");
+                                    iniciar = 1;
+                                    sal = 1;
+                                }
+                                else if (mensaje == "No")
+                                {
+                                    MessageBox.Show("El usuario o la contraseña son incorrectas.");
+                                    atender.Abort();
+                                }
+                                else
+                                {
+                                    MessageBox.Show(mensaje);
+                                    atender.Abort();
+                                }
 
                                 break;
                             }
@@ -92,6 +115,7 @@ namespace Versio1
                                 ActualizarConectados(mensaje);
                                 break;
                             }
+
                         case 7:
                             {
                                 string[] invitacion = mensaje.Split(',');
@@ -124,6 +148,7 @@ namespace Versio1
                                 }
                                 break;
                             }
+
                     }
                 }
             }
@@ -185,15 +210,25 @@ namespace Versio1
 
                 //Creamos el socket 
                 server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
                 
+
+                //Pongo en marcha el thread que atenderá los mensajes del servidor.
+                ThreadStart ts = delegate { AtenderServidor(); };
+                atender = new Thread(ts); 
+                atender.Start();
+
                 try
                 {
                     //Intentamos conectar el socket
                     server.Connect(ipep);
+
                     //Pongo en marcha el thread que atenderá los mensajes del servidor.
                     ThreadStart ts = delegate { AtenderServidor(); };
                     atender = new Thread(ts);
                     atender.Start();
+
+
                 }
                 catch (SocketException)
                 {
@@ -227,6 +262,7 @@ namespace Versio1
             if (this.BackColor != Color.Green)
             {
                 //IPEndPoint con el ip y el puerto del servidor al que queremos conectarnos
+
                 IPAddress direc = IPAddress.Parse("147.83.117.22"); //IP desarrollo: 192.168.56.102 IP produccion: 147.83.117.22
                 IPEndPoint ipep = new IPEndPoint(direc, 50026);
 
@@ -237,10 +273,26 @@ namespace Versio1
                 {
                     //Intentamos conectar el socket
                     server.Connect(ipep);
+
+                IPAddress direc = IPAddress.Parse("192.168.56.102");
+                IPEndPoint ipep = new IPEndPoint(direc, 9553);
+
+                //Creamos el socket 
+                server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                
+                
+
                     //Pongo en marcha el thread que atenderá los mensajes del servidor.
                     ThreadStart ts = delegate { AtenderServidor(); };
                     atender = new Thread(ts);
                     atender.Start();
+
+
+                    //Intentamos conectar el socket
+                try
+                {
+                    server.Connect(ipep);
+
                 }
                 catch (SocketException)
                 {
@@ -256,9 +308,14 @@ namespace Versio1
                 }
                 else
                 {
+
                     //Ponemos en mensaje el nombre del usuario y la contraseña
                     string mensaje = "5/" + usuario.Text + "/" + contraseña.Text;
                     nomusu = usuario.Text;
+
+                    // Quiere la longitud del nombre
+                    string mensaje = "5/" + usuario.Text + "/" + contraseña.Text;
+
                     // Enviamos al servidor el nombre
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
@@ -274,7 +331,11 @@ namespace Versio1
             if (this.BackColor == Color.Green)
             {
                 //Enviamos mensaje de desconexión
+
                 string mensaje = "0/"+idPart;
+
+                string mensaje = "0/";
+
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
@@ -296,7 +357,11 @@ namespace Versio1
             if (sal == 1)
             {
                 //Enviamos mensaje de desconexión
+
                 string mensaje = "0/"+idPart;
+
+                string mensaje = "0/";
+
                 byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg2);
 
@@ -319,7 +384,11 @@ namespace Versio1
         private void ActualizarConectados(string mensaje)
         {
             int i = 0;
+
             this.vector = mensaje.Split(',');
+
+            string[] vector = mensaje.Split(',');
+
             numConectados = Convert.ToInt32(vector[0]); 
             conectados.Rows.Clear();
             conectados.ColumnCount = 1;
@@ -333,6 +402,7 @@ namespace Versio1
             }
             
         }
+
         private void invitar_Click(object sender, EventArgs e)
         {
             if (iniciar == 1)
@@ -382,5 +452,7 @@ namespace Versio1
                 }
             }
         }
+
+
     }
 }
