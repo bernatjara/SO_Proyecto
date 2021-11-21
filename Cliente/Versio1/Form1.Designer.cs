@@ -31,7 +31,6 @@
             this.ganador = new System.Windows.Forms.RadioButton();
             this.Puntos = new System.Windows.Forms.RadioButton();
             this.nganador = new System.Windows.Forms.RadioButton();
-            this.salir = new System.Windows.Forms.Button();
             this.Nombre = new System.Windows.Forms.TextBox();
             this.Data = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +43,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.desco = new System.Windows.Forms.Button();
+            this.conectados = new System.Windows.Forms.DataGridView();
+            this.invitar = new System.Windows.Forms.Button();
+            this.nominvita = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.conectados)).BeginInit();
             this.SuspendLayout();
             // 
             // ganador
@@ -78,16 +82,6 @@
             this.nganador.TabStop = true;
             this.nganador.Text = "Partidas ganadas por un jugador";
             this.nganador.UseVisualStyleBackColor = true;
-            // 
-            // salir
-            // 
-            this.salir.Location = new System.Drawing.Point(50, 360);
-            this.salir.Name = "salir";
-            this.salir.Size = new System.Drawing.Size(75, 23);
-            this.salir.TabIndex = 4;
-            this.salir.Text = "Salir";
-            this.salir.UseVisualStyleBackColor = true;
-            this.salir.Click += new System.EventHandler(this.salir_Click);
             // 
             // Nombre
             // 
@@ -195,11 +189,50 @@
             this.desco.UseVisualStyleBackColor = true;
             this.desco.Click += new System.EventHandler(this.desco_Click);
             // 
+            // conectados
+            // 
+            this.conectados.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.conectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.conectados.Location = new System.Drawing.Point(557, 64);
+            this.conectados.Name = "conectados";
+            this.conectados.Size = new System.Drawing.Size(217, 319);
+            this.conectados.TabIndex = 17;
+            // 
+            // invitar
+            // 
+            this.invitar.Location = new System.Drawing.Point(873, 181);
+            this.invitar.Name = "invitar";
+            this.invitar.Size = new System.Drawing.Size(75, 23);
+            this.invitar.TabIndex = 18;
+            this.invitar.Text = "Invitar";
+            this.invitar.UseVisualStyleBackColor = true;
+            this.invitar.Click += new System.EventHandler(this.invitar_Click);
+            // 
+            // nominvita
+            // 
+            this.nominvita.Location = new System.Drawing.Point(863, 125);
+            this.nominvita.Name = "nominvita";
+            this.nominvita.Size = new System.Drawing.Size(100, 20);
+            this.nominvita.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(797, 91);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(245, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Escriba el nombre de la persona que quiere invitar:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 444);
+            this.ClientSize = new System.Drawing.Size(1054, 444);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.nominvita);
+            this.Controls.Add(this.invitar);
+            this.Controls.Add(this.conectados);
             this.Controls.Add(this.desco);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -212,12 +245,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Data);
             this.Controls.Add(this.Nombre);
-            this.Controls.Add(this.salir);
             this.Controls.Add(this.nganador);
             this.Controls.Add(this.Puntos);
             this.Controls.Add(this.ganador);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.conectados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,7 +261,6 @@
         private System.Windows.Forms.RadioButton ganador;
         private System.Windows.Forms.RadioButton Puntos;
         private System.Windows.Forms.RadioButton nganador;
-        private System.Windows.Forms.Button salir;
         private System.Windows.Forms.TextBox Nombre;
         private System.Windows.Forms.TextBox Data;
         private System.Windows.Forms.Label label1;
@@ -241,6 +273,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button desco;
+        private System.Windows.Forms.DataGridView conectados;
+        private System.Windows.Forms.Button invitar;
+        private System.Windows.Forms.TextBox nominvita;
+        private System.Windows.Forms.Label label5;
     }
 }
 
