@@ -43,10 +43,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.desco = new System.Windows.Forms.Button();
+            this.mensajeenviado = new System.Windows.Forms.TextBox();
+            this.enviarmensaje = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.conectados = new System.Windows.Forms.DataGridView();
-            this.invitar = new System.Windows.Forms.Button();
-            this.nominvita = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.conectados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -189,50 +189,53 @@
             this.desco.UseVisualStyleBackColor = true;
             this.desco.Click += new System.EventHandler(this.desco_Click);
             // 
+            // mensajeenviado
+            // 
+            this.mensajeenviado.Location = new System.Drawing.Point(800, 127);
+            this.mensajeenviado.Name = "mensajeenviado";
+            this.mensajeenviado.Size = new System.Drawing.Size(242, 20);
+            this.mensajeenviado.TabIndex = 21;
+            // 
+            // enviarmensaje
+            // 
+            this.enviarmensaje.Location = new System.Drawing.Point(850, 153);
+            this.enviarmensaje.Name = "enviarmensaje";
+            this.enviarmensaje.Size = new System.Drawing.Size(114, 23);
+            this.enviarmensaje.TabIndex = 22;
+            this.enviarmensaje.Text = "Enviar mensaje";
+            this.enviarmensaje.UseVisualStyleBackColor = true;
+            this.enviarmensaje.Click += new System.EventHandler(this.enviarmensaje_Click_1);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(860, 91);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(91, 13);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Mensaje a enviar:";
+            // 
             // conectados
             // 
             this.conectados.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.conectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.conectados.Location = new System.Drawing.Point(557, 64);
+            this.conectados.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.conectados.Location = new System.Drawing.Point(554, 91);
             this.conectados.Name = "conectados";
-            this.conectados.Size = new System.Drawing.Size(217, 319);
-            this.conectados.TabIndex = 17;
-            // 
-            // invitar
-            // 
-            this.invitar.Location = new System.Drawing.Point(873, 181);
-            this.invitar.Name = "invitar";
-            this.invitar.Size = new System.Drawing.Size(75, 23);
-            this.invitar.TabIndex = 18;
-            this.invitar.Text = "Invitar";
-            this.invitar.UseVisualStyleBackColor = true;
-            this.invitar.Click += new System.EventHandler(this.invitar_Click);
-            // 
-            // nominvita
-            // 
-            this.nominvita.Location = new System.Drawing.Point(863, 125);
-            this.nominvita.Name = "nominvita";
-            this.nominvita.Size = new System.Drawing.Size(100, 20);
-            this.nominvita.TabIndex = 19;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(797, 91);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(245, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "Escriba el nombre de la persona que quiere invitar:";
+            this.conectados.ReadOnly = true;
+            this.conectados.Size = new System.Drawing.Size(240, 278);
+            this.conectados.TabIndex = 24;
+            this.conectados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.conectados_CellClick_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1054, 444);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.nominvita);
-            this.Controls.Add(this.invitar);
             this.Controls.Add(this.conectados);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.enviarmensaje);
+            this.Controls.Add(this.mensajeenviado);
             this.Controls.Add(this.desco);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -273,10 +276,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button desco;
+        private System.Windows.Forms.TextBox mensajeenviado;
+        private System.Windows.Forms.Button enviarmensaje;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView conectados;
-        private System.Windows.Forms.Button invitar;
-        private System.Windows.Forms.TextBox nominvita;
-        private System.Windows.Forms.Label label5;
     }
 }
 

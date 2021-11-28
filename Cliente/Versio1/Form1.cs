@@ -19,8 +19,6 @@ namespace Versio1
         public Form1()
         {
             InitializeComponent();
-            //Necesario para para que los elementos de los formularios puedan ser accedidios desde threads diferentes a los que los crearon.
-            CheckForIllegalCrossThreadCalls = false;
         }
         int iniciar = 0;
         int sal = 0;
@@ -29,6 +27,9 @@ namespace Versio1
         string nominvi;
         string[] vector;
         int idPart=-1;
+        int idPort = 50026;
+        delegate void DelegadoParaData(string mensaje);
+        delegate void DelegadoParaColor();
         private void AtenderServidor()
         {
             while (true)
@@ -49,7 +50,8 @@ namespace Versio1
                                     //Recibimos la respuesta del servidor 
                                     if (mensaje == "Si")
                                     {
-                                        this.BackColor = Color.Green;
+                                        DelegadoParaColor colorcambio = new DelegadoParaColor(ColorCambio);
+                                        this.Invoke(colorcambio);
                                         MessageBox.Show("Bienvindo usuario.");
                                         iniciar = 1;
                                         sal = 1;
@@ -89,10 +91,11 @@ namespace Versio1
                             }
                         case 6: //Recibimos la lista de conectados.
                             {
-                                ActualizarConectados(mensaje);
+                                DelegadoParaData delegado = new DelegadoParaData(ActualizarConectados);
+                                conectados.Invoke(delegado, new object[] {mensaje});
                                 break;
                             }
-                        case 7:
+                        case 7: //Codigo para aceptar o rechazar una invitación
                             {
                                 string[] invitacion = mensaje.Split(',');
                                 DialogResult result1 = MessageBox.Show(invitacion[0] + " te ha enviado una notificación.", "Aceptar invitación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -110,7 +113,7 @@ namespace Versio1
                                 }
                                 break;
                             }
-                        case 8:
+                        case 8: //Codigo para ver si te han aceptado o rechazado la invitación y entrar en partida
                             {
                                 string[] invitacion = mensaje.Split(',');
                                 if (invitacion[0] == "Si")
@@ -122,6 +125,15 @@ namespace Versio1
                                 {
                                     MessageBox.Show(nominvi + " ha rechazado tu invitación.");
                                 }
+                                break;
+                            }
+                        case 9: //Codigo para recibir los mensajes enviados
+                            {
+                                string[] recibido = mensaje.Split('+');
+                                if (idPart == Convert.ToInt32(recibido[0]))
+                                {
+                                    MessageBox.Show(recibido[2]+" te ha enviado: "+recibido[1]);
+                                }                                
                                 break;
                             }
                     }
@@ -174,14 +186,14 @@ namespace Versio1
             }
             else
                 MessageBox.Show("No has iniciado sesión aún.");
-        }
+        }//Boton que sirve para enviar las consultas
         private void Registarse_Click(object sender, EventArgs e)
         {
             if (this.BackColor != Color.Green)
             {
                 //IPEndPoint con el ip y el puerto del servidor al que queremos conectarnos
                 IPAddress direc = IPAddress.Parse("147.83.117.22");
-                IPEndPoint ipep = new IPEndPoint(direc, 50026);
+                IPEndPoint ipep = new IPEndPoint(direc, idPort);
 
                 //Creamos el socket 
                 server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -221,14 +233,14 @@ namespace Versio1
             {
                 MessageBox.Show("No te puedes registrar con una sesión iniciada.");
             }
-        }
+        }//Boton que se conecta al servidor y guarda el nuevo usuario en la base de datos
         private void Logearse_Click(object sender, EventArgs e)
         {
             if (this.BackColor != Color.Green)
             {
                 //IPEndPoint con el ip y el puerto del servidor al que queremos conectarnos
                 IPAddress direc = IPAddress.Parse("147.83.117.22"); //IP desarrollo: 192.168.56.102 IP produccion: 147.83.117.22
-                IPEndPoint ipep = new IPEndPoint(direc, 50026);
+                IPEndPoint ipep = new IPEndPoint(direc, idPort);
 
                 //Creamos el socket 
                 server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -268,7 +280,7 @@ namespace Versio1
             {
                 MessageBox.Show("No puedes iniciar sesión sin desconectarte primero de la actual.");
             }
-        }
+        }//Boton que se conecta al servidor y espera una respuesta del servidor para ver si el usuario existe o no
         private void desco_Click(object sender, EventArgs e)
         {
             if (this.BackColor == Color.Green)
@@ -290,7 +302,7 @@ namespace Versio1
             {
                 MessageBox.Show("Primero te debes conectar para que te puedas desconectar.");
             }
-        }
+        }//Boton que envia al servidor la desconexión del usuario
         private void Form1_Close(object sender, EventArgs e)
         {
             if (sal == 1)
@@ -315,8 +327,8 @@ namespace Versio1
                 sal = 0;
                 Close();
             }
-        }
-        private void ActualizarConectados(string mensaje)
+        }//Funcion que envia al servidor la desconexion del usuario si se clica la cruz de cerrar
+        public void ActualizarConectados(string mensaje)
         {
             int i = 0;
             this.vector = mensaje.Split(',');
@@ -332,55 +344,77 @@ namespace Versio1
                 i++;
             }
             
-        }
-        private void invitar_Click(object sender, EventArgs e)
+        }//Funcion que va actualizando el dataGridView de los usuarios conectados actualmente
+        private void enviarmensaje_Click_1(object sender, EventArgs e)
+        {
+            if (iniciar == 0)
+            {
+                MessageBox.Show("Primero tienes que iniciar sesión.");
+            }
+            else
+            {
+                if (nominvi == null)
+                {
+                    MessageBox.Show("Tienes que estar en partida con alguien antes de poder enviar un mensaje.");
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(mensajeenviado.Text))
+                    {
+                        MessageBox.Show("Tienes que escribir un mensaje primero.");
+                    }
+                    else
+                    {
+                        // Quiere la longitud del nombre
+                        string mensaje = "9/" + idPart + "/" + mensajeenviado.Text;
+                        // Enviamos al servidor el nombre
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                        server.Send(msg);
+                    }
+                }
+            }
+        }//Boton que sirve para enviar al servidor un mensaje dirigido al usuario en partida
+        private void conectados_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (iniciar == 1)
             {
-                if (numConectados == 1)
-                {
-                    MessageBox.Show("No hay nadie a quien invitar.");
-                }
-                else if (string.IsNullOrEmpty(nominvita.Text))
-                {
-                    MessageBox.Show("Introduzca un nombre porfavor.");
-                }
-                else if (nomusu == nominvita.Text)
+                nominvi = Convert.ToString(conectados.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                if (nominvi == nomusu)
                 {
                     MessageBox.Show("No te puedes invitar a ti mismo.");
                 }
                 else
                 {
-                    int i = 0;
-                    bool encontrado = false;
-                    while ((i < numConectados) && (encontrado == false))
-                    {
-                        if (vector[i + 1] == nominvita.Text)
-                        {
-                            encontrado = true;
-                        }
-                        else
-                        {
-                            i++;
-                        }
-                    }
-                    if (encontrado == false)
-                    {
-                        MessageBox.Show("No se existe el usuario al que quieres invitar.");
-                    }
-                    else
+                    DialogResult result1 = MessageBox.Show("Quieres invitar a " + nominvi + "?", "Aceptar invitación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result1 == DialogResult.Yes)
                     {
                         // Quiere la longitud del nombre
-                        string mensaje = "7/" + nominvita.Text;
-                        nominvi = nominvita.Text;
+                        string mensaje = "7/" + nominvi;
                         // Enviamos al servidor el nombre
                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                         server.Send(msg);
-                        //Recibimos la respuesta del servidor
-                        byte[] msg2 = new byte[80];
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
             }
-        }
+            else
+            {
+                MessageBox.Show("Primero debe iniciar sesión.");
+            }
+        }//Funcion que sirve para invitar a alguien a una partida clicando al dataGridView
+        public void ColorCambio()
+        {
+            if (iniciar == 0)
+            {
+                this.BackColor = Color.Green;
+            }
+            else
+            {
+                this.BackColor = Color.Gray;
+            }
+        }//Funcion para poder cambiar el color del form usando el cross_threading
     }
 }
