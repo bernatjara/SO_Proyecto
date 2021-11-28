@@ -1,4 +1,5 @@
-//programa en C para consultar los datos de la base de datos
+//programa en C para consultar los datos de la base de datos 
+//y atender las distintas peticiones y necesidades del jugador.
 //#include <my_global.h>
 #include <string.h>
 #include <unistd.h>
@@ -11,8 +12,8 @@
 #include <mysql.h>
 #include <pthread.h>
 
-//Estructura para la lista de partidas, en el cual se alamacenaran 
-//los nombres y los sockets de los usuarios
+//Estructura para la tabla de partidas, en el cual se alamacenaran 
+//los nombres y los sockets de los usuarios.
 typedef struct{
 	char nombre1[20];
 	char nombre2[20];
@@ -85,8 +86,7 @@ int DameSocket (ListaConectados *lista, char usuario[20])
 		return -1;
 }
 
-//Funcion que retorna la posicion del usuario deseado en la lista de conectados
-//y -1 si no lo encuentra.
+//Funcion que retorna la posicion del usuario deseado (recibido como parametro) en la lista de conectados.
 int DamePosicion (ListaConectados *lista, char usuario[20])
 {
 	int i = 0;
@@ -101,7 +101,7 @@ int DamePosicion (ListaConectados *lista, char usuario[20])
 	}
 }
 
-//Elimina un usuario de la lista de conectados, quita el socket de la lista y devuelve 0.
+//Elimina un usuario de la lista de conectados, quita el socket de la lista y devuelve 1.
 
 int EliminarLista (ListaConectados *lista, char usuario[20])
 {
@@ -163,7 +163,8 @@ int AnadirPartida (TablaDePartidas tabla, char usuario1[20], char usuario2[20], 
 	}
 }
 
-//Enviamos invitacion para jugar
+//Rcibimos como parametro el nombre del usuario que invita, el socket del rival y la id de la partida.
+//Enviamos al rival, usando su socket, una invitacion para jugar "7/nombre de quien invita, id de la partida".
 void Invitar (char usuario[20], int socket, int id)
 {
 	char notificacion[512];
@@ -171,7 +172,8 @@ void Invitar (char usuario[20], int socket, int id)
 	write(socket, notificacion, strlen(notificacion));
 }
 
-//Enviamos la respuesta a la invitacion.
+//Recibimos como parametro el nombre del usuario que responde, su respuesta a la invitación de partida y la id de la partida.
+//Usando la id de la partida y el nombre del usuario, sacamos el socket del rival de la tabla de partidas y le enviamos la respuesta.
 void RespuestaInvitacion(TablaDePartidas tabla, char usuario[20], char respuesta[20], int id)
 {
 	char notificacion[512];
@@ -188,7 +190,8 @@ void RespuestaInvitacion(TablaDePartidas tabla, char usuario[20], char respuesta
 	write(socket, notificacion, strlen(notificacion));
 }
 
-//Eliminamos la partida de la tabla de partidas
+//Eliminamos la partida de la tabla de partidas. Recibimos la id de la partida como dato, buscamos en la tabla la partida usando la id 
+//y finalmente cambiamos el estado de la partida a 0 (significa que esta disponible para otra partida).
 void EliminarPartida(TablaDePartidas tabla, int id)
 {
 	tabla[id].estado=0;	
@@ -207,6 +210,7 @@ ListaConectados lista;
 //Tabla de partidas.
 TablaDePartidas tabla;
 
+//Usando las funciones creadas, atendemos las distintas peticiones y necesidades del usuario.
 void *AtenderCliente (void *socket)
 {	
 	int sock_conn;
@@ -334,7 +338,7 @@ void *AtenderCliente (void *socket)
 			strcpy (password, p);
 			terminar = IniciarSesion(usuario, password, respuesta, conn, sock_conn);
 		}
-		//Usuario A quiere invitar a B
+		// Cuando el codigo es 7, usuario A quiere invitar a B
 		else if(codigo==7)
 		{
 			int id;
@@ -346,12 +350,12 @@ void *AtenderCliente (void *socket)
 			printf("%s invita a %s.\n", usuario, rival);
 			//Obtenemos los sockets
 			socket1 = DameSocket(&lista, usuario);
-			printf("%d", socket1);
+			printf("%d\n", socket1);
 			socket2 = DameSocket(&lista, rival);
-			printf("%d", socket2);			
+			printf("%d\n", socket2);			
 			//Buscamos si hay espacio en la tabla de partidas
 			id = AnadirPartida(&tabla, usuario, rival, socket1, socket2);
-			printf("%d", id);
+			printf("%d\n", id);
 			if (id != -1)
 			{
 				//Enviamos la invitacion al rival
@@ -359,7 +363,7 @@ void *AtenderCliente (void *socket)
 			}
 				
 		}
-		//Respuesta de la invitacion
+		//Cuando el codigo es 6, enviamos la respuesta de la invitacion
 		else if (codigo==8)
 		{
 			char answer[20];
@@ -370,6 +374,32 @@ void *AtenderCliente (void *socket)
 			id = atoi(p);
 			//Enviamos respuesta
 			RespuestaInvitacion(&tabla, usuario, answer, id);
+		}
+		//Cuando el codigo es 9, recibimos "9/id de la partida/mensaje".
+		//Con la id de la partida encontramos el socket del rival y le enviamos el mensaje.
+		else if (codigo==9)
+		{
+			char mensaje1[500];
+			char mensaje2[500];
+			int id;
+			int socket;
+			p = strtok( NULL, "/");
+			id = atoi(p);
+			printf("ID de la partida: %d\n ", id);
+			p = strtok( NULL, "/");
+			strcpy(mensaje1,p);
+			printf("El mensaje es: %s\n", mensaje1);
+			sprintf(mensaje2, "9/%d+%s+%s", id, mensaje1, usuario);
+			if (strcmp(tabla[id].nombre1, usuario)!=0)
+			{
+				socket= tabla[id].socket1;
+			}
+			else
+			{
+				socket=tabla[id].socket2;
+			}
+			write(socket, mensaje2, strlen(mensaje2));
+			
 		}
 		if ((codigo==1) || (codigo==2) || (codigo==3) || (codigo==4) || (codigo==5))
 		{
@@ -401,7 +431,11 @@ void *AtenderCliente (void *socket)
 	close(sock_conn);
 }
 
+//FUNCIONES PARA LA BASE DE DATOS.
 
+//Recibimos el nobre del usuario y su contraseña, lo buscamos el la base de datos. 
+//Si existe y los datos recibidos son los correctos, dejamos que se conecte. 
+//Si no son correctos o no existen en la base de datos, informamos al usuario.
 int IniciarSesion(char usuario[20], char contra[20], char respuesta[100], MYSQL *conn, int sock_conn)
 {	
 	MYSQL_ROW row;
@@ -447,6 +481,9 @@ int IniciarSesion(char usuario[20], char contra[20], char respuesta[100], MYSQL 
 	}
 	
 }
+
+//Codigo para registrar al nuevo uususario en la base de datos. Si el usuario ya existe devuelve un mensaje avisando.
+// Devuelve otro mensaje si todo ha ido bien.
 int Registrarse(char usuario[20], char password[20], char respuesta[100], MYSQL *conn, int sock_conn)
 {
 	MYSQL_ROW row;
@@ -468,6 +505,8 @@ int Registrarse(char usuario[20], char password[20], char respuesta[100], MYSQL 
 		return 1;
 	}
 }
+
+//Consulta SQL para obtener el nombre del jugador que ha ganado mas partidas.
 void MasPartidasGanadas(char respuesta[100], MYSQL *conn)
 {
 	MYSQL_ROW row;
@@ -501,6 +540,10 @@ void MasPartidasGanadas(char respuesta[100], MYSQL *conn)
 		printf("%s",respuesta);
 	}
 }
+
+//Recibimos como parametro el nobre de un jugador y la fecha de una partida. Consultamos en la base de datos si 
+//ese jugador jugó en esa partida y el numero de puntos. Si el ese jugador no jugó, se devuelve un mensaje avisando.
+//De lo contrario devolvemos el nombre del jugador, el numero de puntos y la fecha de la partida.
 void NumeroPuntosData(char nombre[20], char data[10], char respuesta[100], MYSQL *conn)
 {
 	MYSQL_ROW row;
@@ -530,6 +573,8 @@ void NumeroPuntosData(char nombre[20], char data[10], char respuesta[100], MYSQL
 		}
 	}
 }
+
+//Consulta SQL que nos da el numero de paridas ganadas por un jugador cuyo nombre se recibe como parametro.
 void DamePartidasGanadas(char nombre[20], char respuesta[100], MYSQL *conn)
 {
 	MYSQL_ROW row;
@@ -566,6 +611,8 @@ void DamePartidasGanadas(char nombre[20], char respuesta[100], MYSQL *conn)
 		}
 	}
 }
+
+//Programa principal donde inicializamos el socket, tenemos el puerto de escucha y la cola de las peticiones. 
 int main(int argc, char *argv[])
 {
 	int sock_conn, sock_listen, ret;
@@ -595,7 +642,7 @@ int main(int argc, char *argv[])
 	
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
-	//Escuchamos en el puerto 9050.
+	//Escuchamos en el puerto.
 	serv_adr.sin_port = htons(puerto);
 	
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0){
