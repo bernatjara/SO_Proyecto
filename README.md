@@ -17,6 +17,7 @@ Versión 3 verificada por Bernat Jara Ortínez
 Versión 3 comentada por Bernat Jara Ortínez
 ###
 Link del video: https://www.youtube.com/watch?v=Rc30ClTplh4
+
 ## Versión 4
 ###
 Versión 4 generada por Bernat Jara 
@@ -26,6 +27,7 @@ Versión 4 verificada por Nil Velàsquez
 Versión 4 comentada por Nil Velàsquez
 ###
 Link del video: https://www.youtube.com/watch?v=JhsGSF41afI
+
 ## Versión 5
 ###
 Versión 5 generada por Nil Velàsquez
@@ -34,4 +36,7 @@ Versión 5 verificada por Bernat Jara Ortínez
 ###
 Versión 5 comentada por Bernat Jara Ortínez
 ###
-Link del video:
+Link del video: https://www.youtube.com/watch?v=3Fn8rsejvVA
+
+
+

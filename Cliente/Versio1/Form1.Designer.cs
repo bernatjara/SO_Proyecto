@@ -47,6 +47,14 @@
             this.enviarmensaje = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.conectados = new System.Windows.Forms.DataGridView();
+
+
+
+            this.invitar = new System.Windows.Forms.Button();
+            this.nominvita = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+
+
             ((System.ComponentModel.ISupportInitialize)(this.conectados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -196,7 +204,12 @@
             this.mensajeenviado.Size = new System.Drawing.Size(242, 20);
             this.mensajeenviado.TabIndex = 21;
             // 
+
             // enviarmensaje
+
+
+            // invitar
+
             // 
             this.enviarmensaje.Location = new System.Drawing.Point(850, 153);
             this.enviarmensaje.Name = "enviarmensaje";
@@ -227,11 +240,22 @@
             this.conectados.TabIndex = 24;
             this.conectados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.conectados_CellClick_1);
             // 
+
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+
             this.ClientSize = new System.Drawing.Size(1054, 444);
+
+
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.nominvita);
+            this.Controls.Add(this.invitar);
+
+            this.ClientSize = new System.Drawing.Size(819, 444);
+
+
             this.Controls.Add(this.conectados);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.enviarmensaje);
@@ -280,6 +304,15 @@
         private System.Windows.Forms.Button enviarmensaje;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView conectados;
+
+
+
+        private System.Windows.Forms.Button invitar;
+        private System.Windows.Forms.TextBox nominvita;
+        private System.Windows.Forms.Label label5;
+
+
+
     }
 }
 
