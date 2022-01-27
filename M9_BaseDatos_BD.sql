@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS M9_BaseDatos;
-CREATE DATABASE M9_BaseDatos;
+DROP DATABASE IF EXISTS M9_BaseDatos_BD;
+CREATE DATABASE M9_BaseDatos_BD;
 
-USE M9_BaseDatos;
+USE M9_BaseDatos_BD;
 
 CREATE TABLE Jugador(
 	ID INT NOT NULL AUTO_INCREMENT,
@@ -28,24 +28,24 @@ CREATE TABLE Partidas(
 	FOREIGN KEY (ID_P) REFERENCES Partida(ID)
 )ENGINE=InnoDB;
 
-INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Bernat','12',1); 
+INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Bernat','12',12); 
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Jordi','34',1);
-INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Nil','56',1);
+INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Nil','56',10);
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Miguel','78',0);
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Eda','51',2);
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Pablo','88',0);
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Aitana','98',1);
 INSERT INTO Jugador(Nombre, Password, Victoria) VALUES ('Aida','345',0);
 
-INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2008-07-01','00: 01: 59',120,'Eda');
+INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2008-07-01','00: 01: 59',120,'Bernat');
 INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2010-08-22','10: 59: 59',60,'Aitana');
 INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2005-05-05','22: 30: 15',14,'Bernat');
 INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2020-07-01','00: 17: 00',40,'Nil');
 INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2008-07-15','08: 00: 00',120,'Eda');
 INSERT INTO Partida(Fecha, Hora, Duracion, Ganador) VALUES ('2009-01-01','20: 00: 00',120,'Jordi');
 
-INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (1,1,11);
-INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (5,1,25);
+INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (5,1,11);
+INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (1,1,25);
 INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (7,2,60);
 INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (2,2,59);
 INSERT INTO Partidas(ID_J, ID_P, Puntuacion) VALUES (1,3,14);
