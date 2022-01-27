@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Versio1
+namespace PPTLS_Juego
 {
     static class Program
     {
