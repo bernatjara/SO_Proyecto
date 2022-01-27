@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Versio2")]
+[assembly: AssemblyTitle("PPTLS_Juego")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Versio2")]
+[assembly: AssemblyProduct("PPTLS_Juego")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4ad6b574-efed-4926-bca8-d721fa3f98dd")]
+[assembly: Guid("5055ecbd-49f7-41cc-87b6-fc69c4cd2edb")]
 
 // Version information for an assembly consists of the following four values:
 //
